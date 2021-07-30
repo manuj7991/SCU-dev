@@ -1,0 +1,10 @@
+customContainer{
+	float:left;
+    width:auto;
+    height: auto;                                                      
+}
+
+.scrollable {
+    height: auto; 
+    overflow-y:auto;
+}

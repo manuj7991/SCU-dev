@@ -1,0 +1,150 @@
+<template>
+    <lightning-card>
+        <div class="slds-box slds-box_x-small">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-form-element__control">
+                            <lightning-record-view-form record-id={recordId} object-api-name={objectApiName}>
+                                <lightning-output-field field-name="Name"></lightning-output-field>
+                            </lightning-record-view-form>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-form-element__control">
+                            <lightning-combobox
+                                disabled={isSelectTransactionsByDateRange}
+                                name="NumberOfTransaction"
+                                label={transactionHistoryLabels.selectNoOfTransations}
+                                value={NoOfTrnsactionValueSelected}
+                                options={NumberOfTransaction}
+                                onchange={handleChange}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-form-element__control">
+                            <lightning-combobox
+                                name="Transaction"
+                                label={transactionHistoryLabels.transactionType}
+                                value={TransactionTypeValueSelected}
+                                options={TransactionType}
+                                onchange={handleChange}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                </div>
+                <template if:true={isSelectTransactionsByDateRange}>
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <div class="slds-form-element__control">
+                                <lightning-input type="date" min="2015-01-20" max={todayDate} name="Tran_start_date" label={transactionHistoryLabels.transactionStartDate} value={startDateValue} onchange={handleChange}></lightning-input >                                
+                            </div> 
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isSelectTransactionsByDateRange}>
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <div class="slds-form-element__control">
+                                <lightning-input disabled="true" type="date" name="Tran_start_date" label={transactionHistoryLabels.transactionStartDate} value={startDateValue}  onchange={handleChange}></lightning-input >
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-form-element__control">
+                        </div>
+                    </div>
+                </div>
+                <template if:true={isSelectTransactionsByDateRange}>
+                    <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <div class="slds-form-element__control">
+                                <lightning-input type="date" min="2020-01-20" max={todayDate} name="Tran_End_date" label={transactionHistoryLabels.transactionEndDate} value={endDateValue} onchange={handleChange}></lightning-input >
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isSelectTransactionsByDateRange}>
+                   <div class="slds-form__item" role="listitem">
+                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                            <div class="slds-form-element__control">
+                                <lightning-input disabled="true" type="date" name="Tran_End_date" label={transactionHistoryLabels.transactionEndDate} value={endDateValue} onchange={handleChange}></lightning-input >
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-form-element__control">
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                        <div class="slds-form-element__control">
+                            <lightning-input name='dateRangeCheckbox' data-my-id="dateRangeCheckboxId" value={isSelectTransactionsByDateRange} type="Checkbox" label={transactionHistoryLabels.getTransactionHistoryBySelectedDateRange} onchange={handleTransactionByDateRangeOrNoOfTransactions}></lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
+            <template if:true={getAccountTransactionHistory}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+            <div class="slds-m-top_medium" style="text-align: center">
+                <lightning-button label={transactionHistoryLabels.submit} variant="brand" class="slds-m-left_x-large" onclick={handleGetTransaction}></lightning-button>
+                <lightning-button label={transactionHistoryLabels.reset} variant="brand" class="slds-m-left_x-large" onclick={resetHistory}></lightning-button>
+            </div>
+            
+        </div></br>
+        <template if:true={isTrue}>
+            <template if:true={isRecordsAvailable}>
+            <div class="slds-box slds-box_x-small">
+                <div class="slds box slds-m-around_large">
+                    <div class="slds-p-around-medium">
+                        <div class="slds-page-header">
+                            <h2 class="slds-text-heading--medium slds-truncate" title={transactionHistoryLabels.transactionDetails}>{transactionHistoryLabels.transactionDetails}</h2>
+                        </div>
+                    </div></br>
+                    
+                    <div class="slds-grid slds-gutters slds-col slds-m-around_large "  title="Transaction"  >
+                        <div class="slds-truncate dv-dynamic-width" style="height: 300px;width:1000px">
+                            <lightning-datatable
+                                key-field="id"
+                                class="table-test"
+                                data={records}
+                                columns={columns}
+                                column-widths-mode="fixed"
+                                hide-checkbox-column="true"
+                                default-sort-direction={defaultSortDirection}
+                                sorted-direction={sortDirection}
+                                sorted-by={sortedBy}
+                                onsort={onHandleSort}
+                                wrap-text-max-lines="3">
+                            </lightning-datatable>
+                        </div> 
+                    </div>
+                </div>           
+            </div>
+            </template>
+            <template if:false={isRecordsAvailable}>
+                <p class="slds-m-left_xx-large slds-m-top_large"  style="font-weight: bold ; font-style: italic; ">
+                    {transactionHistoryLabels.transactionsAreNotAvailable}
+                </p>
+            </template>
+        </template>
+    </lightning-card>
+</template>

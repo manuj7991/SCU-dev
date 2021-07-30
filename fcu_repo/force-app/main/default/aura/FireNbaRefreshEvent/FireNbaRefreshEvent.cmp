@@ -1,0 +1,9 @@
+<aura:component implements= "force:hasRecordId,forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,lightning:availableForFlowScreens" access="global">
+
+   <aura:registerEvent name="refreshEvent" type="markup://lightning:nextBestActionsRefresh"/>
+
+   <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+   <aura:attribute name="myRecordId" type="String" />
+
+</aura:component>

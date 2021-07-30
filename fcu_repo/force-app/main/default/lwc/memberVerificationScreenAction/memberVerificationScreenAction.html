@@ -1,0 +1,119 @@
+<template>
+
+
+    <lightning-quick-action-panel header="Member Verification">
+
+        <template if:true={recordId}>
+            <template if:true={spinner}>
+                <div class="exampleHolder">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div> 
+            </template>
+        
+            <template if:false={spinner}>  
+
+                <template if:true={previous}>
+                        
+                    <template for:each={ques} for:item="qu">
+                         <p key={qu.Question_Label__c} class="slds-float_left slds-var-p-horizontal_small">
+                                <c-member-verification-question verify-status={qu.verified} ques={qu.Question_Label__c} type={qu.Sobject_Type__c} fieldname={qu.Field_Name__c} response-attribute={qu.Response_Attribute__c}  recid={recordId} apitype={qu.Type__c} acct-rel-field={qu.Account_Relation_Field__c} onupdate={handleUpdate} oninsert={handleUpdate} onhide={handleUpdate}></c-member-verification-question>
+                        </p>
+                    </template>  
+                        
+                    <template for:each={memques} for:item="qu">
+                        <p key={qu.question} class="slds-float_left slds-var-p-horizontal_small">
+                            <c-member-verification-security-question ques={qu.question} response={qu.answer} verify-status={qu.verified} onupdate={handleUpdate} oninsert={handleUpdate} onhide={handleUpdate} ></c-member-verification-security-question>
+                        </p>
+                    </template> 
+                </template>   
+                                            
+                <template if:true={next}>
+                                    
+                        <div class="slds-align_absolute-center">
+                            <lightning-card>
+                                <div class="slds-align_absolute-center slds-text-heading_small" slot="title">
+                                        Is this a verified member?
+                                </div>
+                                 <lightning-layout horizontal-align="center">
+                                
+                                    <lightning-layout-item flexibility="auto,no-grow">
+                                        <p class="slds-var-p-horizontal_small slds-align_absolute-center"> <lightning-button variant="brand" label="Yes" onclick={handleSave}></lightning-button></p>
+                                    </lightning-layout-item>
+                                
+                                    <lightning-layout-item flexibility="auto,no-grow">
+                                        <p class="slds-var-p-horizontal_small slds-align_absolute-center"> <lightning-button variant="brand" label="No" onclick={handleSave}></lightning-button></p>
+                                    </lightning-layout-item>
+                                
+                                </lightning-layout>    
+                            </lightning-card>
+                        </div>
+                </template>
+                    
+                    
+                <template if:true={finish}>
+                                    
+                    <div class="slds-align_absolute-center">
+                        <lightning-card>
+                            <div class="slds-align_absolute-center slds-text-heading_small" slot="title">
+                                    Member Verification Process Completed
+                            </div>
+                        </lightning-card>
+                    </div>
+                </template>
+                
+                <template if:true={errorLog}>
+                                    
+                    <div class="slds-align_absolute-center">
+                        <lightning-card>
+                            <div class="slds-align_absolute-center slds-text-heading_small" slot="title">
+                                  Please check DNA Cust Key or contact System Administrator
+                            </div>
+                        </lightning-card>
+                    </div>
+                </template>        
+                            
+        
+                  <!--/div-->
+                  <div slot="footer">
+        
+                      
+                        <lightning-layout>
+                            <template if:false={finish}>                            
+                                <lightning-layout-item >
+                                        <div class="custom-box">
+                                                <lightning-button variant="brand" label="Dismiss" onclick={handleClose}></lightning-button>
+                                        </div>
+                                </lightning-layout-item>
+                                <template if:true={next}>
+                                    <lightning-layout-item alignment-bump="left">
+                                            <div class="custom-box">
+                                                    <lightning-button variant="brand" label="Previous" onclick={handleNav}></lightning-button>
+                                            </div>
+                                    </lightning-layout-item>
+                                </template>
+                                <template if:false={next}>
+                                        <lightning-layout-item alignment-bump="left">
+                                                <div class="custom-box">
+                                                    <lightning-button variant="brand" label="Next" disabled={disableButton} onclick={handleNav}></lightning-button>
+                                                </div>
+                                        </lightning-layout-item>    
+                                </template>
+                            </template>
+                            <template if:true={finish}>
+                                <lightning-layout-item alignment-bump="left">
+                                    <div class="custom-box slds-float_right">
+                                        <lightning-button variant="brand" label="Finish" onclick={handleClose}></lightning-button>
+                                    </div>                                     
+                                </lightning-layout-item>   
+                            </template>            
+                        </lightning-layout>
+                 </div>
+                <!--/div-->
+            </template>   
+        
+    
+        </template>
+
+    </lightning-quick-action-panel>
+    
+</template>

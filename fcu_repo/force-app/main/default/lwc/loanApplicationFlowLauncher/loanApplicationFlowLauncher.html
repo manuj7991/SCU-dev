@@ -1,0 +1,54 @@
+<template>   
+
+    <div class="narrow slds-card slds-text-body--regular">
+        <header class="slds-card__header slds-media--center slds-grid">
+            <div class="slds-media__figure">
+                <lightning-icon icon-name="doctype:box_notes" size="small">
+                </lightning-icon>
+            </div>
+            <div class="slds-col slds-has-flexi-truncate slds-align-middle">
+                <div class="slds-media__body">
+                    <h3 class="slds-text-heading--small slds-m-right--small slds-truncate">
+                        <span>Loan Applications ({countOfLoanApplications})</span></h3>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-align-bottom">
+                <div><button onclick={handleOnNewClick} class="slds-button slds-button--neutral slds-button--small">&nbsp;New&nbsp;</button></div>
+            </div>
+        </header>
+        <section class="slds-card__body">
+
+        <template if:true={loanApplications}>
+           
+            <ul>
+                <template for:each={loanApplications} for:item="application">
+                <li class="slds-tile slds-m-vertical--small slds-m-horizontal--large" key={application.loanId} >
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate" data-id={application.loanId} onclick={navigateToLoanApplication}>
+                                <p class="slds-truncate slds-tile__title" ><a>{application.loanApplicationName}</a></p>
+                            </div>
+                            <ul class="slds-tile__detail slds-list--horizontal slds-has-dividers slds-text-body--small">
+                                <li class="slds-truncate slds-list__item">{application.loanApplicationStatus}
+                                </li>
+                                <li class="slds-truncate slds-list__item" ><span>{application.loanApplicationCreatedDate}</span>
+                                    <!--render facet: 23:856;a-->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </template>
+            </ul>        
+    </template>
+    <template if:false={loanApplications}>
+        <lightning-spinner variant="brand" alternative-text="Loading Cases" size="medium"> </lightning-spinner>
+    </template>
+        </section>
+        <footer class="slds-card__footer">
+            <div><a onclick={navigateToLoanListView}>View All<span
+                        class="slds-assistive-text">Loan Applications</span></a></div>
+        </footer>
+    </div>
+
+</template>

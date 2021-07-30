@@ -1,0 +1,141 @@
+<template>
+    <!--div style="margin-left: 150px;"-->          
+        <p class="slds-var-p-horizontal_small">
+            <!--strong--><lightning-formatted-text value={ques}></lightning-formatted-text> <!--/strong-->
+        </p>
+
+        
+    <!--template if:true={fieldname}-->
+
+        <!--div class="c-container slds-align_absolute-center slds-text-heading_small"-->
+            <lightning-layout>          
+                
+                <template if:true={showList}>
+                    <lightning-layout horizontal-align="space">
+                       <lightning-layout-item flexibility="auto" padding="around-small"> 
+                        <div class="slds-form-element">
+                            <template if:true={showText}>
+                                <template if:true={showOption}>
+                                    <lightning-combobox
+                                        name="FinancialAcctValue"
+                                        label="Status"
+                                        options={response}
+                                        variant="label-hidden"
+                                        dropdown-alignment="auto"
+                                        placeholder={placehold}>
+                                    </lightning-combobox>
+                                </template>
+                             </template>
+                            <template if:false={showText}>
+                                <div class="sizebox">
+                                    <lightning-input value="*****" disabled="true" variant="label-hidden">
+                                    </lightning-input>      
+                                </div>
+                            </template>
+                        </div>    
+                        </lightning-layout-item>    
+                   
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <div class="slds-form-element" style="padding-left: 25px;">
+                            <lightning-input type="toggle"
+                                variant="label-hidden"
+                                message-toggle-active="Hide"
+                                message-toggle-inactive="Show"
+                                checked={checked}
+                                onchange={handleToggleChange}>
+                        </lightning-input>
+                        </div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item alignment-bump="left" flexibility="auto" padding="around-small">
+                        <div class="custom-box" style="margin: top 10px;">
+                            <lightning-button variant="brand" label="Verified"  disabled={disableButton} onclick={handleVerify}></lightning-button>
+                        </div>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item alignment-bump="left" flexibility="auto" padding="around-small">
+                        <div class="custom-box">
+                            <lightning-button  label="Failed"  disabled={disableButton} onclick={handleVerify}></lightning-button>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item alignment-bump="left" flexibility="auto" padding="around-small">
+                        <div class="custom-box">
+                            <template if:true={showRing}> 
+                                <!--lightning-progress-ring value="100" variant={ringVariant}>
+                                </lightning-progress-ring-->
+                                <lightning-icon icon-name={ringVariant}></lightning-icon>
+                            </template>
+                        </div>
+                    </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+
+                <template if:true={showTextbox}>
+                   <lightning-layout horizontal-align="space">
+                   
+                   
+                        
+                            <lightning-layout-item flexibility="auto" padding="around-small">
+                                
+                                <div class="sizebox">
+                                    <template if:true={showText}>
+                                        <template if:true={response}>
+                                            <lightning-input value={response} disabled="true" variant="label-hidden">
+                                            </lightning-input>
+                                        </template>
+                                    </template>
+                                    <template if:false={showText}>
+                                        <lightning-input value="*****" disabled="true" variant="label-hidden">
+                                        </lightning-input>
+                                    </template>     
+                                </div>
+                            </lightning-layout-item>     
+                        
+                        
+                            <lightning-layout-item flexibility="auto" padding="around-small">
+                                <div class="slds-form-element" style="padding-left: 25px;">
+                                    <!--label class="slds-checkbox_toggle slds-grid">
+                                    <span class="slds-form-element__label slds-m-bottom_none"> </span>
+                                    <input type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16" aria-describedby="checkbox-toggle-16" checked={selectChange} />
+                                    <span id="checkbox-toggle-16" class="slds-checkbox_faux_container" aria-live="assertive">
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-checkbox_on">Hide</span>
+                                        <span class="slds-checkbox_off">Show</span>
+                                    </span>
+                                    </label-->
+                                    <lightning-input type="toggle"
+                                                      variant="label-hidden"
+                                                      message-toggle-active="Hide"
+                                                      message-toggle-inactive="Show"
+                                                      checked={checked}
+                                                      onchange={handleToggleChange}
+                                    >
+                                    </lightning-input>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item alignment-bump="left" flexibility="auto" padding="around-small">
+                                <div class="custom-box" style="margin: top 10px;">
+                                    <lightning-button variant="brand" label="Verified" disabled={disableButton} onclick={handleVerify}></lightning-button>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item alignment-bump="left" flexibility="auto" padding="around-small">
+                                <div class="custom-box">
+                                    <lightning-button label="Failed" disabled={disableButton} onclick={handleVerify}></lightning-button>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="right-align" flexibility="auto" padding="around-small">
+                                <div class="custom-box">
+                                    <template if:true={showRing}> 
+                                        <!--lightning-progress-ring value="100" variant={ringVariant}>
+                                        </lightning-progress-ring-->
+                                        <lightning-icon icon-name={ringVariant}></lightning-icon>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </lightning-layout>  
+        <!--/div-->
+    <!--/template-->
+    <!--/div-->        
+</template>

@@ -1,0 +1,13 @@
+<!-- <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:button label="New Lead" onclick="{!c.ShowFlow}" aura:id="btnLead"/>
+    <div class ="clsFlow" ><lightning:flow aura:id="flowData1"/></div>
+   
+</aura:component> -->
+
+<aura:component description="LightningFlow" implements="force:appHostable,lightning:isUrlAddressable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global">
+    <aura:attribute name="testAttr" type="String"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <lightning:flow aura:id="flowData"/>
+</aura:component>
